@@ -1,0 +1,16 @@
+[
+  { "title": "Chocolate Bar", "reading": "Chocolate" },
+  { "title": "Chocolate Chip", "reading": "Chocolate" },
+  { "title": "Dark Chocolate", "reading": "Chocolate" },
+  { "title": "Chocolate Coin", "reading": "Chocolate" },
+  { "title": "Chocolate Egg", "reading": "Chocolate" },
+  { "title": "Lollipop", "reading": "Hard" },
+  { "title": "Jaw Breaker", "reading": "Hard" },
+  { "title": "Toffee Apple", "reading": "Hard" },
+  { "title": "Caramel", "reading": "Other" },
+  { "title": "Sour Chew", "reading": "Other" },
+  { "title": "Gummi Bear", "reading": "Other" },
+  { "title": "Candy Floss", "reading": "Other" },
+  { "title": "Jelly Beans", "reading": "Other" },
+  { "title": "Liquorice", "reading": "Other" },
+]
