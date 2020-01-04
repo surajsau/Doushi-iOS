@@ -18,6 +18,7 @@
 		448918A623C0565B00CD589E /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448918A523C0565B00CD589E /* HistoryViewController.swift */; };
 		448918A923C057F300CD589E /* Doushi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 448918A723C057F300CD589E /* Doushi.xcdatamodeld */; };
 		448918AD23C072CE00CD589E /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448918AC23C072CE00CD589E /* HistoryCell.swift */; };
+		448918AF23C0A70600CD589E /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 448918AE23C0A70600CD589E /* icon.png */; };
 		44A4379F23BDA0C3002B0092 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A4379E23BDA0C3002B0092 /* MasterViewController.swift */; };
 		44A437A123BDA0DC002B0092 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A437A023BDA0DC002B0092 /* DetailViewController.swift */; };
 		44A437A323BDA11A002B0092 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A437A223BDA11A002B0092 /* Data.swift */; };
@@ -43,6 +44,7 @@
 		448918A523C0565B00CD589E /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		448918A823C057F300CD589E /* Doushi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Doushi.xcdatamodel; sourceTree = "<group>"; };
 		448918AC23C072CE00CD589E /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
+		448918AE23C0A70600CD589E /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		44A4379E23BDA0C3002B0092 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		44A437A023BDA0DC002B0092 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		44A437A223BDA11A002B0092 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				4478ACA523BDFC8A006F70B6 /* MeaningCell.swift */,
 				4458B5BB23B9E036004A0EA5 /* Main.storyboard */,
 				4458B5BE23B9E037004A0EA5 /* Assets.xcassets */,
+				448918AE23C0A70600CD589E /* icon.png */,
 				4458B5C023B9E037004A0EA5 /* LaunchScreen.storyboard */,
 				4458B5C323B9E037004A0EA5 /* Info.plist */,
 				44A4379E23BDA0C3002B0092 /* MasterViewController.swift */,
@@ -183,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44A437A923BDE31C002B0092 /* verb.realm in Resources */,
+				448918AF23C0A70600CD589E /* icon.png in Resources */,
 				44A437A523BDAF53002B0092 /* verbs.json in Resources */,
 				4458B5C223B9E037004A0EA5 /* LaunchScreen.storyboard in Resources */,
 				4458B5BF23B9E037004A0EA5 /* Assets.xcassets in Resources */,
