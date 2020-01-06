@@ -14,6 +14,7 @@ class MasterViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchTextField: SearchTextField!
+    @IBOutlet var searchBarScope: UISegmentedControl!
     
     private var realm: Realm!
     
@@ -39,6 +40,9 @@ class MasterViewController: UIViewController {
         tableView.keyboardDismissMode = .onDrag
         
         searchTextField.addTarget(self, action: #selector(filterSearch), for: .editingChanged)
+        
+        searchBarScope.addTarget(self, action: #selector(searchBarScopeSelected), for: .valueChanged)
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,11 +67,17 @@ class MasterViewController: UIViewController {
      */
     @objc func filterSearch() {
         let searchText = searchTextField.text!
-        let predicate = NSPredicate(format: currentMode.getQuery(), searchText)
-        filteredVerbs = realm.objects(Verb.self).filter(predicate)
+        filteredVerbs = realm.objects(Verb.self).filter(currentMode.getQuery(with: searchText))
         
         tableView.reloadData()
     }
+    
+    @objc func searchBarScopeSelected() {
+        currentMode = modes[searchBarScope.selectedSegmentIndex]
+        filterSearch()
+    }
+    
+    
     
 }
 
@@ -149,14 +159,14 @@ extension SearchMode {
         }
     }
     
-    func getQuery() -> String {
+    func getQuery(with query: String) -> NSPredicate {
         switch self {
         case .FirstVerb:
-            return "firstVerbReading CONTAINS %@"
+            return NSPredicate(format: "firstVerbReading CONTAINS %@", query)
         case .SecondVerb:
-            return "secondVerbReading CONTAINS %@"
+            return NSPredicate(format: "secondVerbReading CONTAINS %@", query)
         case .Combined:
-            return "reading CONTAINS %@"
+            return NSPredicate(format: "reading CONTAINS %@ OR firstVerbReading CONTAINS %@ OR secondVerbReading CONTAINS %@", query, query, query)
         }
     }
 }

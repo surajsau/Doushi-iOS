@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="-349" y="-652"/>
         </scene>
-        <!--履歴-->
+        <!--History View Controller-->
         <scene sceneID="ZiN-cR-EZ5">
             <objects>
                 <viewController id="vSV-p3-FGd" customClass="HistoryViewController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
@@ -71,7 +71,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="osl-fG-8y0"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="履歴" id="KRf-a3-YoG"/>
+                    <tabBarItem key="tabBarItem" systemItem="history" id="KRf-a3-YoG"/>
                     <connections>
                         <outlet property="historyTableView" destination="frf-QV-viO" id="DGB-ub-WkJ"/>
                         <segue destination="t96-fU-Dfa" kind="show" identifier="showDetail" id="Cme-Pn-ikv"/>
@@ -96,7 +96,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="VtK-8z-8IG">
-                                <rect key="frame" x="0.0" y="152" width="414" height="661"/>
+                                <rect key="frame" x="0.0" y="184" width="414" height="629"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -134,13 +134,23 @@
                                     <outlet property="delegate" destination="SfR-Gg-8tb" id="9CK-lR-8sv"/>
                                 </connections>
                             </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="daN-WP-uqZ" customClass="SearchScopeBar" customModule="Doushi" customModuleProvider="target">
+                                <rect key="frame" x="20" y="146" width="374" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Combined"/>
+                                    <segment title="First Verb"/>
+                                    <segment title="Second Verb"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="vYY-dI-QaC"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="検索" id="qKj-de-st6"/>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="qKj-de-st6"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="searchBarScope" destination="daN-WP-uqZ" id="dlP-c0-O6a"/>
                         <outlet property="searchTextField" destination="xWU-Jg-VUN" id="bAW-Br-Hm0"/>
                         <outlet property="tableView" destination="VtK-8z-8IG" id="5um-FH-pff"/>
                         <segue destination="t96-fU-Dfa" kind="show" identifier="showDetail" id="ZoI-rK-fqu"/>
@@ -335,6 +345,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Cme-Pn-ikv"/>
+        <segue reference="ZoI-rK-fqu"/>
     </inferredMetricsTieBreakers>
 </document>
