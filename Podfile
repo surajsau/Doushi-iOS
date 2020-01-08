@@ -8,5 +8,7 @@ target 'Doushi' do
   # Pods for Doushi
   pod 'Realm'
   pod 'RealmSwift'
+  pod 'RxSwift', '~> 5.0'
+  pod 'RxCocoa', '~> 5.0'
 
 end

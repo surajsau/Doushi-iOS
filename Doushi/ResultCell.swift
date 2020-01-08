@@ -24,9 +24,9 @@ class ResultCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func bind(with verb: Verb?) {
-        resultTitle.text = verb?.firstForm!
-        resultSubTitle.text = verb?.reading!
+    func bind(with verb: ResultModel?) {
+        resultTitle.text = verb?.title
+        resultSubTitle.text = verb?.subTitle
     }
 
 }

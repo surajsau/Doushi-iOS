@@ -8,9 +8,12 @@
 
 import UIKit
 import RealmSwift
+import RxSwift
 
-class DetailViewController: UIViewController {
+class DetailViewController: BaseViewController, StoryboardInitializable {
  
+    static var storyboardIdentifier = "DetailVC"
+    
     @IBOutlet weak var verbTitle: UILabel!
     @IBOutlet weak var subTitle: UILabel!
     
@@ -20,68 +23,50 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var secondVerb: UILabel!
     @IBOutlet weak var secondVerbReading: UILabel!
     
-    @IBOutlet weak var usageLabel: UILabel!
     @IBOutlet weak var meaningsList: UITableView!
     
-    @IBOutlet weak var firstVerbCard: UIView!
-    @IBOutlet weak var secondVerbCard: UIView!
-    
-    private var realm: Realm!
-    
+    @IBOutlet var secondVerbCard: UIButton!
+    @IBOutlet var firstVerbCard: UIButton!
     /*
         Parameter passed on HistoryViewController or FavoriteViewController
      */
     var verbReading: String!
+    
+    var viewModel: DetailViewModel?
+    
+    private let disposeBag = DisposeBag()
     
     /*
         Result callback for SearchViewController
      */
     var searchDelegate: SearchDelegate?
     
-    private var meanings: [MeaningListModel] = []
-    
-    private let localData = LocalData()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        realm = try! Realm(configuration: appDelegate.realmConfig)
-        
-        firstVerbCard.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(firstVerbClicked)))
-        secondVerbCard.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(secondVerbClicked)))
-        
-    }
-    
-    @objc func firstVerbClicked() {
-        searchDelegate?.onVerbSelected(firstVerb.text!, true)
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func secondVerbClicked() {
-        searchDelegate?.onVerbSelected(secondVerb.text!, true)
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let predicate = NSPredicate(format: "reading == %@", verbReading)
-        let verb = realm.objects(Verb.self).filter(predicate)[0] as Verb
+        guard let viewModel = self.viewModel else {
+            return
+        }
         
-        verbTitle.text = verb.firstForm
-        subTitle.text = verb.reading
+        bindText(viewModel.title, to: verbTitle.rx.text)
+        bindText(viewModel.subTitle, to: subTitle.rx.text)
+        bindText(viewModel.firstVerb, to: firstVerb.rx.text)
+        bindText(viewModel.secondVerb, to: secondVerb.rx.text)
+        bindText(viewModel.firstVerbReading, to: firstVerbReading.rx.text)
+        bindText(viewModel.secondVerbReading, to: secondVerbReading.rx.text)
         
-        firstVerb.text = verb.firstVerb
-        firstVerbReading.text = verb.firstVerbReading
+        viewModel.meanings
+            .bind(to: meaningsList.rx.items(cellIdentifier: "MeaningCell", cellType: MeaningCell.self)) { [weak self] (_, item, cell) in
+                cell.bind(with: item)
+        }.disposed(by: disposeBag)
+                
+        firstVerbCard.rx.tap
+            .bind(to: viewModel.verbItemClicked.mapObserver { 1 })
+            .disposed(by: disposeBag)
         
-        secondVerb.text = verb.secondVerb
-        secondVerbReading.text = verb.secondVerbReading
+        secondVerbCard.rx.tap
+            .bind(to: viewModel.verbItemClicked.mapObserver { 2 })
+            .disposed(by: disposeBag)
         
         firstVerbCard.layer.shadowColor = UIColor.black.cgColor
         firstVerbCard.layer.shadowOpacity = 0.15
@@ -92,37 +77,8 @@ class DetailViewController: UIViewController {
         secondVerbCard.layer.shadowOpacity = 0.15
         secondVerbCard.layer.shadowOffset = .zero
         secondVerbCard.layer.shadowRadius = 4
-        
-        let usagePattern = verb.usagePattern?.replacingOccurrences(of: "(1)", with: "")
-                        .replacingOccurrences(of: "(2)", with: "")
-                        .split(separator: ";")
-        
-        for (index, meaning) in verb.meanings.enumerated() {
-            var pattern = ""
-            if(index < usagePattern?.count ?? 0) {
-                pattern = String(usagePattern?[index] ?? "").usageToHiragana()
-            }
-            meanings.append(meaning.toListModel(usagePattern: pattern))
-        }
 
     }
-    
-}
-
-extension DetailViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.meanings.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MeaningCell", for: indexPath) as! MeaningCell
-        let meaning = self.meanings[indexPath.row]
-        
-        cell.bind(with: meaning)
-        
-        return cell
-    }
-    
     
 }
 

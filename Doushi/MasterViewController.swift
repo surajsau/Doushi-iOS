@@ -8,41 +8,50 @@
 
 import UIKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 
-
-class MasterViewController: UIViewController {
+class MasterViewController: UIViewController, StoryboardInitializable {
     
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var searchTextField: SearchTextField!
     @IBOutlet var searchBarScope: UISegmentedControl!
+    @IBOutlet var searchTextField: SearchTextField!
+    @IBOutlet var tableView: UITableView!
     
-    private var realm: Realm!
+    static var storyboardIdentifier: String = "MasterVC"
     
-    private var currentSelectedItem = 0
+    var viewModel: MasterViewModel?
     
-    private var filteredVerbs: Results<Verb>?
-    
-    private var currentMode = SearchMode.Combined
-    
-    private let modes = [SearchMode.Combined, SearchMode.FirstVerb, SearchMode.SecondVerb]
-    
-    private let localData = LocalData()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        guard let viewModel = self.viewModel else {
             return
         }
         
-        realm = try! Realm(configuration: appDelegate.realmConfig)
+        viewModel.result
+            .observeOn(MainScheduler.instance)
+            .bind(to: tableView.rx.items(cellIdentifier: "ResultCell", cellType: ResultCell.self)) { [weak self] (_, item, cell) in
+                cell.bind(with: item)
+            }
+            .disposed(by: disposeBag)
         
-        tableView.keyboardDismissMode = .onDrag
+        searchBarScope.rx.controlEvent(.valueChanged)
+            .bind(to: viewModel.selectedSearchMode.mapObserver{ self.searchBarScope.selectedSegmentIndex })
+            .disposed(by: disposeBag)
         
-        searchTextField.addTarget(self, action: #selector(filterSearch), for: .editingChanged)
+        searchTextField.rx.controlEvent(.editingChanged)
+            .bind(to: viewModel.searchText.mapObserver{ self.searchTextField.text! })
+            .disposed(by: disposeBag)
         
-        searchBarScope.addTarget(self, action: #selector(searchBarScopeSelected), for: .valueChanged)
-    
+        tableView.rx.modelSelected(ResultModel.self)
+            .bind(to: viewModel.selectedItem)
+            .disposed(by: disposeBag)
+        
+//        tableView.rx.itemSelected.bind(to: viewModel.selectedItem.mapObserver{ $0.row })
+//            .disposed(by: disposeBag)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,30 +63,13 @@ class MasterViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let verb = filteredVerbs?[self.currentSelectedItem]
-        if let destinationVC = segue.destination as? DetailViewController {
-            destinationVC.verbReading = verb?.reading
-            destinationVC.searchDelegate = self
-        }
+//        let verb = verbs?[viewModel.selectedPosition]
+//        if let destinationVC = segue.destination as? DetailViewController {
+//            destinationVC.verbReading = verb?.reading
+//            destinationVC.searchDelegate = self
+//        }
         
     }
-    
-    /*
-        core function which performs the search from the existing Realm Database
-     */
-    @objc func filterSearch() {
-        let searchText = searchTextField.text!
-        filteredVerbs = realm.objects(Verb.self).filter(currentMode.getQuery(with: searchText))
-        
-        tableView.reloadData()
-    }
-    
-    @objc func searchBarScopeSelected() {
-        currentMode = modes[searchBarScope.selectedSegmentIndex]
-        filterSearch()
-    }
-    
-    
     
 }
 
@@ -96,78 +88,29 @@ protocol SearchDelegate {
     
 }
 
-extension MasterViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredVerbs?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ResultCell
-        
-        let verb = filteredVerbs?[indexPath.row]
-        cell.bind(with: verb)
-        return cell
-    }
-
-}
-
-extension MasterViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let verb = filteredVerbs?[indexPath.row]
-        self.localData.upsert(history: VerbHistory(verbReading: verb?.reading ?? "",
-                                                   timeStamp: NSDate().timeIntervalSince1970,
-                                                   times: 1))
-        
-        self.currentSelectedItem = indexPath.row
-        self.performSegue(withIdentifier: "showDetail", sender: self)
-    }
-}
-
 extension MasterViewController: SearchDelegate {
     
     func onVerbSelected(_ verb: String, _ isFirstVerb: Bool) {
         
-        if(isFirstVerb) {
-            self.currentMode = SearchMode.FirstVerb
-        } else {
-            self.currentMode = SearchMode.SecondVerb
-        }
-        
-        filterSearch()
     }
     
 }
 
-enum SearchMode {
-    case Combined
-    case FirstVerb
-    case SecondVerb
-}
-
-extension SearchMode {
-    
-    func getTitle() -> String {
-        switch self {
-        case .Combined:
-            return "Combined"
-        case .FirstVerb:
-            return "First Verb"
-        case .SecondVerb:
-            return "Second Verb"
-        }
-    }
-    
-    func getQuery(with query: String) -> NSPredicate {
-        switch self {
-        case .FirstVerb:
-            return NSPredicate(format: "firstVerbReading CONTAINS %@", query)
-        case .SecondVerb:
-            return NSPredicate(format: "secondVerbReading CONTAINS %@", query)
-        case .Combined:
-            return NSPredicate(format: "reading CONTAINS %@ OR firstVerbReading CONTAINS %@ OR secondVerbReading CONTAINS %@", query, query, query)
-        }
-    }
-}
-
+//extension MasterViewController: UITableViewDataSource {
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return verbs?.count ?? 0
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ResultCell
+//
+//        guard let verb = verbs?[indexPath.row] else {
+//            return cell
+//        }
+//
+//        cell.bind(with: ResultModel(verb: verb))
+//        return cell
+//    }
+//
+//}

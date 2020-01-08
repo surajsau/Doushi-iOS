@@ -58,6 +58,8 @@ struct VerbFavorite {
 
 class LocalData {
     
+    let searchModes = [SearchMode.Combined, SearchMode.FirstVerb, SearchMode.SecondVerb]
+    
     private lazy var managecContext: NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistenContainer.viewContext

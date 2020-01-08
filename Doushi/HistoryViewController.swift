@@ -9,8 +9,10 @@
 import UIKit
 import CoreData
 
-class HistoryViewController: UIViewController {
+class HistoryViewController: UIViewController, StoryboardInitializable {
 
+    static var storyboardIdentifier: String = "HistoryVC"
+    
     private let localData = LocalData()
     
     private var data: [VerbHistory] = []

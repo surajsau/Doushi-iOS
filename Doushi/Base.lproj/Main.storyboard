@@ -11,7 +11,7 @@
         <!--Home Tab-->
         <scene sceneID="gH1-aM-F4d">
             <objects>
-                <tabBarController id="eee-bB-FE1" userLabel="Home Tab" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabbarVC" id="eee-bB-FE1" userLabel="Home Tab" customClass="TabBarController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="動詞" id="myK-0s-h1e"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="65s-3R-5qC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -31,7 +31,7 @@
         <!--History View Controller-->
         <scene sceneID="ZiN-cR-EZ5">
             <objects>
-                <viewController id="vSV-p3-FGd" customClass="HistoryViewController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HistoryVC" id="vSV-p3-FGd" customClass="HistoryViewController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rZy-cw-dfN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -84,7 +84,7 @@
         <!--Search-->
         <scene sceneID="ZsU-tK-fb3">
             <objects>
-                <viewController id="SfR-Gg-8tb" userLabel="Search" customClass="MasterViewController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MasterVC" id="SfR-Gg-8tb" userLabel="Search" customClass="MasterViewController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rEG-5J-lHw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -100,7 +100,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="Bbc-cX-SAd" detailTextLabel="saB-FG-CDT" style="IBUITableViewCellStyleSubtitle" id="RWT-M7-kcI" customClass="ResultCell" customModule="Doushi" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ResultCell" textLabel="Bbc-cX-SAd" detailTextLabel="saB-FG-CDT" style="IBUITableViewCellStyleSubtitle" id="RWT-M7-kcI" customClass="ResultCell" customModule="Doushi" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="55.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RWT-M7-kcI" id="gMB-yT-V7x">
@@ -129,10 +129,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="SfR-Gg-8tb" id="Lgh-Fj-Rkt"/>
-                                    <outlet property="delegate" destination="SfR-Gg-8tb" id="9CK-lR-8sv"/>
-                                </connections>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="daN-WP-uqZ" customClass="SearchScopeBar" customModule="Doushi" customModuleProvider="target">
                                 <rect key="frame" x="20" y="146" width="374" height="32"/>
@@ -150,9 +146,9 @@
                     <tabBarItem key="tabBarItem" systemItem="search" id="qKj-de-st6"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="searchBarScope" destination="daN-WP-uqZ" id="dlP-c0-O6a"/>
-                        <outlet property="searchTextField" destination="xWU-Jg-VUN" id="bAW-Br-Hm0"/>
-                        <outlet property="tableView" destination="VtK-8z-8IG" id="5um-FH-pff"/>
+                        <outlet property="searchBarScope" destination="daN-WP-uqZ" id="6CP-FG-LTk"/>
+                        <outlet property="searchTextField" destination="xWU-Jg-VUN" id="e3S-Fs-6MW"/>
+                        <outlet property="tableView" destination="VtK-8z-8IG" id="4Ao-is-fsB"/>
                         <segue destination="t96-fU-Dfa" kind="show" identifier="showDetail" id="ZoI-rK-fqu"/>
                     </connections>
                 </viewController>
@@ -163,7 +159,7 @@
         <!--Detail-->
         <scene sceneID="bTq-vI-1NM">
             <objects>
-                <viewController title="Doushi Detail" id="t96-fU-Dfa" userLabel="Detail" customClass="DetailViewController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailVC" title="Doushi Detail" id="t96-fU-Dfa" userLabel="Detail" customClass="DetailViewController" customModule="Doushi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wTi-AW-fZW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -193,7 +189,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7M3-HH-vd1" userLabel="First Verb">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7M3-HH-vd1" userLabel="First Verb" customClass="UIButton">
                                 <rect key="frame" x="20" y="198" width="145" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -215,7 +211,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UEM-58-HGJ" userLabel="Second Verb">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UEM-58-HGJ" userLabel="Second Verb" customClass="UIButton">
                                 <rect key="frame" x="184" y="198" width="145" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -297,9 +293,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="t96-fU-Dfa" id="xKU-Sz-x8y"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -308,11 +301,11 @@
                     <navigationItem key="navigationItem" id="Of4-xr-FwG"/>
                     <connections>
                         <outlet property="firstVerb" destination="XMU-4G-9Ow" id="5Lk-QC-h4B"/>
-                        <outlet property="firstVerbCard" destination="7M3-HH-vd1" id="Sra-x4-iOj"/>
+                        <outlet property="firstVerbCard" destination="7M3-HH-vd1" id="K2l-cz-OnG"/>
                         <outlet property="firstVerbReading" destination="cZg-Tp-NWi" id="C8c-if-2o4"/>
                         <outlet property="meaningsList" destination="pcH-gm-awD" id="s17-jL-a1v"/>
                         <outlet property="secondVerb" destination="sdb-lg-Qa2" id="okp-Om-9Us"/>
-                        <outlet property="secondVerbCard" destination="UEM-58-HGJ" id="n9p-u6-m4c"/>
+                        <outlet property="secondVerbCard" destination="UEM-58-HGJ" id="SEG-FM-It2"/>
                         <outlet property="secondVerbReading" destination="zfs-hY-rel" id="Ui1-it-TrU"/>
                         <outlet property="subTitle" destination="StK-63-1tY" id="CsV-ss-Ybb"/>
                         <outlet property="verbTitle" destination="4Ek-1y-Qeq" id="SVp-a3-KPi"/>
